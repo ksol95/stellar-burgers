@@ -6,6 +6,7 @@ import { AppHeader } from '@components';
 
 const App = () => (
   <div className={styles.app}>
+    <h1>test</h1>
     <AppHeader />
     <ConstructorPage />
   </div>
