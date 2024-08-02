@@ -9,12 +9,12 @@ import { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   getIngredients,
-  isIngredientsLoadingSelector
+  isLoadingSelectors
 } from '../../services/slices/ingredientsSlice';
 
 export const ConstructorPage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const isIngredientsLoading = useSelector(isIngredientsLoadingSelector);
+  const isIngredientsLoading = useSelector(isLoadingSelectors);
   //Загружаем ингредиенты
   isIngredientsLoading && dispatch(getIngredients());
 

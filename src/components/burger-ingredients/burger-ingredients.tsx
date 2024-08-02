@@ -5,11 +5,11 @@ import { TTabMode } from '@utils-types';
 import { BurgerIngredientsUI } from '../ui/burger-ingredients';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../services/store';
-import { allIngredientsSelector } from '../../services/slices/ingredientsSlice';
+import { ingredientsSelector } from '../../services/slices/ingredientsSlice';
 
 export const BurgerIngredients: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const ingredients = useSelector(allIngredientsSelector);
+  const ingredients = useSelector(ingredientsSelector);
 
   const buns = ingredients.filter((ingredient) => {
     ingredient.type === 'buns';
