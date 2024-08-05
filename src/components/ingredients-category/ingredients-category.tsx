@@ -2,6 +2,8 @@ import { forwardRef, useMemo } from 'react';
 import { TIngredientsCategoryProps } from './type';
 import { TIngredient } from '@utils-types';
 import { IngredientsCategoryUI } from '../ui/ingredients-category';
+import { useSelector } from 'react-redux';
+import { ingredientsSelector } from '../../services/slices/ingredientsSlice';
 
 export const IngredientsCategory = forwardRef<
   HTMLUListElement,
@@ -12,7 +14,7 @@ export const IngredientsCategory = forwardRef<
     bun: {
       _id: ''
     },
-    ingredients: []
+    ingredients: useSelector(ingredientsSelector)
   };
 
   const ingredientsCounters = useMemo(() => {

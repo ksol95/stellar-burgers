@@ -1,7 +1,6 @@
 import { getIngredientsApi } from '@api';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { TIngredient } from '@utils-types';
-import { act } from 'react-dom/test-utils';
 
 export const getIngredients = createAsyncThunk('ingridients/getAll', async () =>
   getIngredientsApi()
@@ -30,12 +29,11 @@ export const ingredientsSlice = createSlice({
       })
       .addCase(getIngredients.rejected, (state, action) => {
         state.isLoading = true;
-        console.log(action.error.message);
+        // state.error = action.error.message;
       })
       .addCase(getIngredients.fulfilled, (state, action) => {
         state.isLoading = false;
         state.ingredients = action.payload;
-        console.log(state.ingredients);
       });
   },
   selectors: {
@@ -44,6 +42,7 @@ export const ingredientsSlice = createSlice({
   }
 });
 
+// export const {  } = ingredientsSlice.actions;
 export const reducer = ingredientsSlice.reducer;
 export const { ingredientsSelector, isLoadingSelectors } =
   ingredientsSlice.selectors;
