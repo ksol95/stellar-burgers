@@ -7,10 +7,7 @@ import { BurgerConstructor } from '../../components';
 import { Preloader } from '../../components/ui';
 import { FC } from 'react';
 import { useDispatch } from 'react-redux';
-import {
-  getIngredients,
-  isLoadingSelectors
-} from '../../services/slices/ingredientsSlice';
+import { getIngredients, isLoadingSelectors } from '@slices';
 
 export const ConstructorPage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
