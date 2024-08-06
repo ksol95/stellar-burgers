@@ -15,11 +15,26 @@ import styles from './app.module.css';
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import { ProtectedRoute } from '../protected-route';
+import { useDispatch } from '@store';
+import { useEffect } from 'react';
+import { authChecked, getIngredients } from '@slices';
 
 const App = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const backgroundLocation = location.state?.backgroundLocation;
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getIngredients());
+    dispatch(authChecked());
+    // const token = localStorage.getItem('token');
+    // if (token) {
+    //   dispatch(getUserThunk({ token }));
+    // } else {
+    //   dispatch();
+    // }
+  }, []);
 
   return (
     <div className={styles.app}>

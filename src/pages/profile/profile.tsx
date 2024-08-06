@@ -1,7 +1,7 @@
-import { ProfileUI } from '@ui-pages';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
+import { ProfileUI } from '@ui-pages';
+import { useSelector } from '@store';
 import { userDataSelector } from '@slices';
 
 export const Profile: FC = () => {
