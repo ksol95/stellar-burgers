@@ -11,6 +11,10 @@ export const initialState: TConstructorState = {
   bun: null
 };
 
+type TmoveElement = {
+  indexFrom: number;
+  indexTo: 1 | -1;
+};
 const moveArrayElements = (
   arr: TConstructorIngredient[],
   indexFrom: number,
@@ -42,8 +46,9 @@ export const constructorSlice = createSlice({
       state.ingredients = [];
       state.bun = null;
     },
-    moveItem: (state, action) => {
+    moveItem: (state, action: PayloadAction<TmoveElement>) => {
       const { indexFrom, indexTo } = action.payload;
+      console.log(action);
       moveArrayElements(state.ingredients, indexFrom, indexFrom + indexTo);
     }
   },
