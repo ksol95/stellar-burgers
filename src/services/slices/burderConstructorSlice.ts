@@ -11,6 +11,15 @@ export const initialState: TConstructorState = {
   bun: null
 };
 
+const moveArrayElements = (
+  arr: TConstructorIngredient[],
+  indexFrom: number,
+  indexTo: number
+) => {
+  if (indexFrom >= 0 && indexTo >= 0 && indexTo <= arr.length - 1)
+    return ([arr[indexFrom], arr[indexTo]] = [arr[indexTo], arr[indexFrom]]);
+};
+
 export const constructorSlice = createSlice({
   name: 'burderConstructor',
   initialState,
@@ -32,6 +41,10 @@ export const constructorSlice = createSlice({
     clearConstructor: (state) => {
       state.ingredients = [];
       state.bun = null;
+    },
+    moveItem: (state, action) => {
+      const { indexFrom, indexTo } = action.payload;
+      moveArrayElements(state.ingredients, indexFrom, indexFrom + indexTo);
     }
   },
   selectors: {
@@ -43,5 +56,5 @@ export const constructorSlice = createSlice({
 
 export const { ingredientsInConstructor, bunInConstructor, selectConstructor } =
   constructorSlice.selectors;
-export const { addIngredient, removeIngredient, clearConstructor } =
+export const { addIngredient, removeIngredient, clearConstructor, moveItem } =
   constructorSlice.actions;
