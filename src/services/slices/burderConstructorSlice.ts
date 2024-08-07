@@ -42,24 +42,32 @@ export const constructorSlice = createSlice({
         (ingredient) => ingredient.id !== action.payload.id
       );
     },
-    clearConstructor: (state) => {
-      state.ingredients = [];
-      state.bun = null;
-    },
+    clearConstructor: () => initialState,
     moveItem: (state, action: PayloadAction<TmoveElement>) => {
       const { indexFrom, indexTo } = action.payload;
-      console.log(action);
       moveArrayElements(state.ingredients, indexFrom, indexFrom + indexTo);
     }
   },
   selectors: {
     selectConstructor: (state) => state,
-    ingredientsInConstructor: (state) => state.ingredients,
+    selectedIngredients: (state) => state.ingredients,
+    burgerComposition: (state) => {
+      if (state.bun) {
+        const burger = state.ingredients.map((ingredient) => ingredient._id);
+        burger.push(state.bun._id);
+        return burger;
+      }
+      return null;
+    },
     bunInConstructor: (state) => state.bun
   }
 });
 
-export const { ingredientsInConstructor, bunInConstructor, selectConstructor } =
-  constructorSlice.selectors;
+export const {
+  selectedIngredients,
+  burgerComposition,
+  bunInConstructor,
+  selectConstructor
+} = constructorSlice.selectors;
 export const { addIngredient, removeIngredient, clearConstructor, moveItem } =
   constructorSlice.actions;

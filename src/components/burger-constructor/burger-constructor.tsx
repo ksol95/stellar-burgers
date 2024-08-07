@@ -1,23 +1,47 @@
-import { FC, useMemo } from 'react';
+import { FC, useMemo, Dispatch } from 'react';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
-import { selectConstructor } from '@slices';
-import { useSelector } from '@store';
+import {
+  orderPost,
+  selectConstructor,
+  burgerComposition,
+  selectOrderDetails,
+  selectOrderRequest,
+  clearOrderDetails,
+  clearConstructor
+} from '@slices';
+import { useDispatch, useSelector } from '@store';
+import { useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {
-  /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
-  //Получаем конструктор
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const constructorItems = useSelector(selectConstructor);
+  const orderRequest = useSelector(selectOrderRequest);
+  const orderModalData = useSelector(selectOrderDetails);
+  const burger = useSelector(burgerComposition);
 
-  const orderRequest = false;
-
-  const orderModalData = null;
 
   const onOrderClick = () => {
-    console.log('d');
-    if (!constructorItems.bun || orderRequest) return;
+    if (!constructorItems.bun || orderRequest) {
+      console.error('Необходимо выбрать булку');
+      return;
+    }
+    if (!constructorItems.ingredients.length) {
+      console.error('Необходимо добавить ингредиенты');
+      return;
+    }
+    burger &&
+      dispatch(orderPost(burger)).then(() => {
+        dispatch(clearConstructor());
+      });
   };
-  const closeOrderModal = () => {};
+
+  const closeOrderModal = () => {
+    if (!orderRequest) {
+      dispatch(clearOrderDetails());
+    }
+  };
 
   const price = useMemo(
     () =>

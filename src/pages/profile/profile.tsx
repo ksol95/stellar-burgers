@@ -2,12 +2,12 @@ import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { ProfileUI } from '@ui-pages';
 import { useSelector } from '@store';
-import { userDataSelector } from '@slices';
+import { userData } from '@slices';
 
 export const Profile: FC = () => {
   /** TODO: взять переменную из стора */
 
-  const user = useSelector(userDataSelector);
+  const user = useSelector(userData);
 
   const [formValue, setFormValue] = useState({
     name: user?.name || '',

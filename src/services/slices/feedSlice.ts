@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
 import { getFeedsApi } from '@api';
 
-export interface IOrderState {
+export interface IFeedState {
   orders: TOrder[];
   total: number;
   totalToday: number;
@@ -10,7 +10,7 @@ export interface IOrderState {
   error: string | undefined;
 }
 
-const initialState: IOrderState = {
+const initialState: IFeedState = {
   orders: [],
   total: 0,
   totalToday: 0,

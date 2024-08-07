@@ -15,19 +15,19 @@ import { getCookie, setCookie, deleteCookie } from '@cookie';
 export interface IUserState {
   isAuthChecked: boolean;
   isAuthenticated: boolean;
-  isLoading: boolean;
-  user: TUser | null;
+
   error: string | undefined;
   loginUserRequest: boolean;
+  user: TUser | null;
 }
 
 const initialState: IUserState = {
   isAuthChecked: false,
   isAuthenticated: false,
-  isLoading: false,
-  user: null,
+
   error: '',
-  loginUserRequest: false
+  loginUserRequest: false,
+  user: null
 };
 
 export const getUser = createAsyncThunk('user/getUser', getUserApi);
@@ -45,7 +45,7 @@ export const checkUserAuth = createAsyncThunk(
   }
 );
 
-export const loginUser = createAsyncThunk(
+export const login = createAsyncThunk(
   'user/login',
   async ({ email, password }: TLoginData) => {
     const data = await loginUserApi({ email, password });
@@ -67,7 +67,7 @@ export const registerUser = createAsyncThunk(
 );
 
 export const updateUser = createAsyncThunk(
-  'user/updateData',
+  'user/updateUser',
   async ({ email, name, password }: TRegisterData) => {
     const data = await updateUserApi({ email, name, password });
     if (!data.success) {
@@ -100,59 +100,52 @@ export const userSlice = createSlice({
         state.isAuthChecked = true;
         state.user = payload.user;
       })
-
-      .addCase(loginUser.pending, (state) => {
+      // Логин
+      .addCase(login.pending, (state) => {
         state.loginUserRequest = true;
-        state.isLoading = true;
+
         state.error = undefined;
       })
-      .addCase(loginUser.rejected, (state, action) => {
+      .addCase(login.rejected, (state, action) => {
         state.error = action.error.message;
         state.loginUserRequest = false;
         state.isAuthChecked = true;
       })
-      .addCase(loginUser.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.loginUserRequest = false;
-        state.isAuthChecked = true;
-        state.user = action.payload ?? null;
+      .addCase(login.fulfilled, (state, action) => {
+        state.error = undefined;
         state.isAuthenticated = true;
-        state.error = '';
-        alert('login successful');
+        state.isAuthChecked = true;
+        state.loginUserRequest = false;
+        state.user = action.payload ?? null;
       })
-      .addCase(registerUser.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(registerUser.rejected, (state) => {
-        state.error = 'Ошибка регистрации';
+      // Регистрация
+      .addCase(registerUser.rejected, (state, action) => {
+        state.error = action.error.message;
         state.user = null;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
-        state.isLoading = false;
+        state.error = undefined;
         state.user = action.payload.user;
-        state.error = '';
       })
+      // Выход
       .addCase(logout.fulfilled, (state, action) => {
         localStorage.clear();
         deleteCookie('accessToken');
+
         state.user = null;
         state.isAuthenticated = false;
       })
-      .addCase(updateUser.pending, (state) => {
-        state.isLoading = true;
-      })
+      //Редактирование пользователя
       .addCase(updateUser.fulfilled, (state, action) => {
         state.user = action.payload ?? null;
-        state.isLoading = false;
       });
   },
   selectors: {
-    isAuthCheckedSelector: (state) => state.isAuthChecked,
-    userDataSelector: (state) => state.user,
+    isAuthChecked: (state) => state.isAuthChecked,
+    userData: (state) => state.user,
     userError: (state) => state.error
   }
 });
 
 export const { authChecked } = userSlice.actions;
-export const { isAuthCheckedSelector, userDataSelector, userError } =
-  userSlice.selectors;
+export const { isAuthChecked, userData, userError } = userSlice.selectors;

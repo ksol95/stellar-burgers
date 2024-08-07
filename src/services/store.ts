@@ -9,13 +9,17 @@ import {
   ingredientsSlice,
   constructorSlice,
   userSlice,
-  feedSlice
+  feedSlice,
+  profileOrderSlice,
+  orderBurgerSlice
 } from '@slices';
 
 const rootReducer = combineReducers({
   [ingredientsSlice.name]: ingredientsSlice.reducer,
   [constructorSlice.name]: constructorSlice.reducer,
   [userSlice.name]: userSlice.reducer,
+  [profileOrderSlice.name]: profileOrderSlice.reducer,
+  [orderBurgerSlice.name]: orderBurgerSlice.reducer,
   [feedSlice.name]: feedSlice.reducer
 });
 
