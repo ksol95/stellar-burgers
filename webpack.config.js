@@ -79,6 +79,7 @@ module.exports = {
       '@api': path.resolve(__dirname, './src/utils/burger-api.ts'),
       '@slices': path.resolve(__dirname, './src/services/slices'),
       '@store': path.resolve(__dirname, './src/services/store.ts'),
+      '@cookie': path.resolve(__dirname, './src/utils/cookie.ts'),
       '@selectors': path.resolve(__dirname, './src/services/selectors')
     }
   },

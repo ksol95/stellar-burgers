@@ -10,9 +10,9 @@ import {
   updateUserApi
 } from '@api';
 import { TUser } from '@utils-types';
-import { getCookie, setCookie, deleteCookie } from '../../utils/cookie';
+import { getCookie, setCookie, deleteCookie } from '@cookie';
 
-export interface UserState {
+export interface IUserState {
   isAuthChecked: boolean;
   isAuthenticated: boolean;
   isLoading: boolean;
@@ -21,7 +21,7 @@ export interface UserState {
   loginUserRequest: boolean;
 }
 
-const initialState: UserState = {
+const initialState: IUserState = {
   isAuthChecked: false,
   isAuthenticated: false,
   isLoading: false,
@@ -48,7 +48,6 @@ export const checkUserAuth = createAsyncThunk(
 export const loginUser = createAsyncThunk(
   'user/login',
   async ({ email, password }: TLoginData) => {
-    alert('Login thunk');
     const data = await loginUserApi({ email, password });
     if (!data.success) {
       return;
@@ -59,14 +58,13 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
+export const logout = createAsyncThunk('user/logout', logoutApi);
 
 export const registerUser = createAsyncThunk(
   'user/registerUser',
   async ({ email, name, password }: TRegisterData) =>
     await registerUserApi({ email, name, password })
 );
-
-export const logout = createAsyncThunk('user/logout', logoutApi);
 
 export const updateUser = createAsyncThunk(
   'user/updateData',
@@ -96,7 +94,6 @@ export const userSlice = createSlice({
       })
       .addCase(getUser.rejected, (state) => {
         state.isAuthChecked = false;
-        console.log(state.error);
         state.error = 'Ошибка получения пользовательских данных';
       })
       .addCase(getUser.fulfilled, (state, { payload }) => {

@@ -6,10 +6,6 @@ import { userDataSelector } from '@slices';
 
 export const Profile: FC = () => {
   /** TODO: взять переменную из стора */
-  // const user = {
-  //   name: '',
-  //   email: ''
-  // };
 
   const user = useSelector(userDataSelector);
 

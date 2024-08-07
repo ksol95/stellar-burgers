@@ -20,20 +20,14 @@ import { useEffect } from 'react';
 import { authChecked, getIngredients } from '@slices';
 
 const App = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const backgroundLocation = location.state?.backgroundLocation;
 
-  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getIngredients());
     dispatch(authChecked());
-    // const token = localStorage.getItem('token');
-    // if (token) {
-    //   dispatch(getUserThunk({ token }));
-    // } else {
-    //   dispatch();
-    // }
   }, []);
 
   return (
