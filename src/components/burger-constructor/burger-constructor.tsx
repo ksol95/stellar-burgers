@@ -8,20 +8,27 @@ import {
   selectOrderDetails,
   selectOrderRequest,
   clearOrderDetails,
-  clearConstructor
+  clearConstructor,
+  selectUserData
 } from '@slices';
 import { useDispatch, useSelector } from '@store';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
   const constructorItems = useSelector(selectConstructor);
   const orderRequest = useSelector(selectOrderRequest);
   const orderModalData = useSelector(selectOrderDetails);
   const burger = useSelector(burgerComposition);
+  const isAuthChecked = useSelector(selectUserData);
 
   const onOrderClick = () => {
+    if (!isAuthChecked) {
+      navigate('/login', { state: { from: location } });
+      return;
+    }
     if (!constructorItems.bun || orderRequest) {
       console.error('Необходимо выбрать булку');
       return;
@@ -30,16 +37,17 @@ export const BurgerConstructor: FC = () => {
       console.error('Необходимо добавить ингредиенты');
       return;
     }
-    burger &&
+
+    // Отправляем собранный бургер на сервер, при успешном запросе очищаем конструктор
+    burger && //finally?
       dispatch(orderPost(burger)).then(() => {
         dispatch(clearConstructor());
       });
   };
 
   const closeOrderModal = () => {
-    if (!orderRequest) {
-      dispatch(clearOrderDetails());
-    }
+    //Окно закрывается если нету активного запроса заказа
+    !orderRequest && dispatch(clearOrderDetails());
   };
 
   const price = useMemo(

@@ -17,7 +17,7 @@ import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import { ProtectedRoute } from '../protected-route';
 import { useDispatch } from '@store';
 import { useEffect } from 'react';
-import { authChecked, getIngredients } from '@slices';
+import { getIngredients, checkUser } from '@slices';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getIngredients());
-    dispatch(authChecked());
+    dispatch(checkUser());
   }, []);
 
   return (

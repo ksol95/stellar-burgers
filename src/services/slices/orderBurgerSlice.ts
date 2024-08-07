@@ -19,7 +19,7 @@ export const orderPost = createAsyncThunk('orderBurger/Post', orderBurgerApi);
 export const orderBurgerSlice = createSlice({
   name: 'orderBurger',
   initialState,
-  reducers: { clearOrderDetails: (state) => initialState },
+  reducers: { clearOrderDetails: () => initialState },
   extraReducers: (builder) => {
     builder
       .addCase(orderPost.pending, (state) => {

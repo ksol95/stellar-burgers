@@ -1,7 +1,7 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { useSelector } from '@store';
 import { Preloader } from '@ui';
-import { isAuthChecked as isAuthCheckedSelector, userData } from '@slices';
+import { selectIsAuthChecked, selectUserAuthenticated } from '@slices';
 
 type ProtectedRouteProps = {
   children: React.ReactElement;
@@ -12,9 +12,13 @@ export const ProtectedRoute = ({
   onlyUnAuth,
   children
 }: ProtectedRouteProps) => {
-  const isAuthChecked = useSelector(isAuthCheckedSelector);
-  const user = useSelector(userData);
+  const isAuthChecked = useSelector(selectIsAuthChecked);
+  console.log(isAuthChecked);
+  const user = useSelector(selectUserAuthenticated);
   const location = useLocation();
+
+  console.log(user);
+
   if (!isAuthChecked) {
     // пока идёт чекаут пользователя, показываем прелоадер
     return <Preloader />;
