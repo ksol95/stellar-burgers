@@ -21,7 +21,6 @@ export const BurgerConstructor: FC = () => {
   const orderModalData = useSelector(selectOrderDetails);
   const burger = useSelector(burgerComposition);
 
-
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) {
       console.error('Необходимо выбрать булку');
