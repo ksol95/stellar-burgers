@@ -2,7 +2,7 @@ import { FC, SyntheticEvent, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { RegisterUI } from '@ui-pages';
 import { useDispatch, useSelector } from '@store';
-import { selectUserError } from '@slices';
+import { loginUser, registerUser, selectUserError } from '@slices';
 
 export const Register: FC = () => {
   const dispatch = useDispatch();
@@ -13,16 +13,12 @@ export const Register: FC = () => {
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-
-    // dispatch(
-    //   registerUserThunk({ email: email, name: userName, password: password })
-    // ).then(() => {
-    //   dispatch(loginUser({ email: email, password: password }));
-    //   return <Navigate to={'/'} />;
-    // });
-    // dispatch(
-    //   registerUser({ email: email, name: userName, password: password })
-    // );
+    dispatch(
+      registerUser({ email: email, name: userName, password: password })
+    ).then(() => {
+      dispatch(loginUser({ email: email, password: password }));
+      return <Navigate to={'/'} />;
+    });
   };
 
   return (

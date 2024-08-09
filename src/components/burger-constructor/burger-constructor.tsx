@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from '@store';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {
+  // ### Конструктор
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -37,10 +38,9 @@ export const BurgerConstructor: FC = () => {
       console.error('Необходимо добавить ингредиенты');
       return;
     }
-
     // Отправляем собранный бургер на сервер, при успешном запросе очищаем конструктор
-    burger && //finally?
-      dispatch(orderPost(burger)).then(() => {
+    burger &&
+      dispatch(orderPost(burger)).finally(() => {
         dispatch(clearConstructor());
       });
   };

@@ -29,6 +29,7 @@ export const orderBurgerSlice = createSlice({
       .addCase(orderPost.fulfilled, (state, action) => {
         state.error = undefined;
         state.order = action.payload.order;
+        // note: Статус заказа приходит всегда "done"
         state.orderRequest = false;
       })
       .addCase(orderPost.rejected, (state, action) => {

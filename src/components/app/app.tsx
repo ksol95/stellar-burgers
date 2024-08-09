@@ -15,15 +15,21 @@ import styles from './app.module.css';
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import { ProtectedRoute } from '../protected-route';
-import { useDispatch } from '@store';
+import { useDispatch, useSelector } from '@store';
 import { useEffect } from 'react';
-import { getIngredients, checkUser } from '@slices';
+import { getIngredients, checkUser, selectOpeningOrderNumber } from '@slices';
 
 const App = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const backgroundLocation = location.state?.backgroundLocation;
+  const background = location.state?.background;
+
+  // Заголовок модальных окон с заказами
+  const openingOrderNumber = useSelector(selectOpeningOrderNumber);
+  let orderTitle: string = openingOrderNumber
+    ? '#' + String(openingOrderNumber).padStart(6, '0')
+    : '';
 
   useEffect(() => {
     dispatch(getIngredients());
@@ -33,11 +39,44 @@ const App = () => {
   return (
     <div className={styles.app}>
       <AppHeader />
-      <Routes location={backgroundLocation || location}>
+      <Routes location={background || location}>
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
-        <Route path='/ingredients/:id' element={<IngredientDetails />} />
-        <Route path='/feed/:number' element={<OrderInfo />} />
+        <Route
+          path='/ingredients/:id'
+          element={
+            <main className={styles.containerMain}>
+              <h1 className={`${styles.title} text text_type_main-large`}>
+                Детали ингредиента
+              </h1>
+              <IngredientDetails />
+            </main>
+          }
+        />
+        <Route
+          path='/feed/:number'
+          element={
+            <main className={styles.containerMain}>
+              <h3 className={`${styles.title} text text_type_digits-default`}>
+                {orderTitle}
+              </h3>
+              <OrderInfo />
+            </main>
+          }
+        />
+        <Route
+          path='/profile/orders/:number'
+          element={
+            <ProtectedRoute>
+              <main className={styles.containerMain}>
+                <h3 className={`text text_type_digits-default`}>
+                  {orderTitle}
+                </h3>
+                <OrderInfo />
+              </main>
+            </ProtectedRoute>
+          }
+        />
         <Route
           path='/login'
           element={
@@ -89,12 +128,12 @@ const App = () => {
         />
         <Route path='*' element={<NotFound404 />} />
       </Routes>
-      {backgroundLocation && (
+      {background && (
         <Routes>
           <Route
             path='/feed/:number'
             element={
-              <Modal title={''} onClose={() => navigate(-1)}>
+              <Modal title={orderTitle} onClose={() => navigate(-1)}>
                 <OrderInfo />
               </Modal>
             }
@@ -111,7 +150,7 @@ const App = () => {
             path='/profile/orders/:number'
             element={
               <ProtectedRoute>
-                <Modal title={''} onClose={() => navigate(-1)}>
+                <Modal title={orderTitle} onClose={() => navigate(-1)}>
                   <OrderInfo />
                 </Modal>
               </ProtectedRoute>

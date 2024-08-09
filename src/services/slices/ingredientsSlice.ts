@@ -38,10 +38,10 @@ export const ingredientsSlice = createSlice({
       });
   },
   selectors: {
-    ingredientsSelector: (sliceState) => sliceState.ingredients,
-    isLoadingSelectors: (sliceState) => sliceState.isLoading,
-    selectIngredientById: (sliceState, id: string) =>
-      sliceState.ingredients.find((ingredient) => ingredient._id === id)
+    ingredientsSelector: (state) => state.ingredients,
+    isLoadingSelectors: (state) => state.isLoading,
+    selectIngredientById: (state, id: string) =>
+      state.ingredients.find((ingredient) => ingredient._id === id)
   }
 });
 

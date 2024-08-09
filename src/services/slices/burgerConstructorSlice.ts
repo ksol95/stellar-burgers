@@ -53,7 +53,12 @@ export const constructorSlice = createSlice({
     selectedIngredients: (state) => state.ingredients,
     burgerComposition: (state) => {
       if (state.bun) {
-        const burger = state.ingredients.map((ingredient) => ingredient._id);
+        const burger: string[] = [];
+        // Добавляем булку в начало
+        burger.push(state.bun._id);
+        // Ингредиенты в середине
+        burger.push(...state.ingredients.map((ingredient) => ingredient._id));
+        // Добавляем булку в конец
         burger.push(state.bun._id);
         return burger;
       }

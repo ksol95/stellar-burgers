@@ -5,6 +5,7 @@ import { selectIngredientById } from '@slices';
 import { RootState, useSelector } from '@store';
 
 export const IngredientDetails: FC = () => {
+  // ### Подробно об ингредиенте
   const { id } = useParams();
 
   const ingredientData =

@@ -13,11 +13,9 @@ export const ProtectedRoute = ({
   children
 }: ProtectedRouteProps) => {
   const isAuthChecked = useSelector(selectIsAuthChecked);
-  console.log(isAuthChecked);
+
   const user = useSelector(selectUserAuthenticated);
   const location = useLocation();
-
-  console.log(user);
 
   if (!isAuthChecked) {
     // пока идёт чекаут пользователя, показываем прелоадер
