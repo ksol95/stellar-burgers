@@ -21,7 +21,6 @@ export const Profile: FC = () => {
   });
 
   useEffect(() => {
-    console.log('Рисуем форму');
     setFormValue((prevState) => ({
       ...prevState,
       name: user?.name || '',
@@ -40,7 +39,9 @@ export const Profile: FC = () => {
     if (isFormChanged) {
       // note: обновление пользователя (с сервера не приходит ошибка)
       dispatch(updateUser(formValue)).finally(() => {
-        console.log('Данные пользователя обновлены');
+        console.info(
+          `Данные пользователя обновлены ${JSON.stringify(formValue)}`
+        );
         //Актуализируем форму
         setFormValue({ ...user, password: '' });
       });
