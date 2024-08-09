@@ -69,7 +69,7 @@ const App = () => {
           element={
             <ProtectedRoute>
               <main className={styles.containerMain}>
-                <h3 className={`text text_type_digits-default`}>
+                <h3 className={`${styles.title} text text_type_digits-default`}>
                   {orderTitle}
                 </h3>
                 <OrderInfo />

@@ -10,7 +10,7 @@ import { ingredientsSelector } from '@slices';
 const maxIngredients = 6;
 
 export const OrderCard: FC<OrderCardProps> = memo(({ order }) => {
-  // ### Карточка с заказом в профиле
+  // ### Карточка с заказом
   const location = useLocation();
   const ingredients: TIngredient[] = useSelector(ingredientsSelector);
 
