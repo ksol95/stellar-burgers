@@ -35,17 +35,8 @@ export const Profile: FC = () => {
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-
-    if (isFormChanged) {
-      // note: обновление пользователя (с сервера не приходит ошибка)
-      dispatch(updateUser(formValue)).finally(() => {
-        console.info(
-          `Данные пользователя обновлены ${JSON.stringify(formValue)}`
-        );
-        //Актуализируем форму
-        setFormValue({ ...user, password: '' });
-      });
-    }
+    // note: обновление пользователя (с сервера не приходит ошибка)
+    isFormChanged && dispatch(updateUser(formValue));
   };
 
   const handleCancel = (e: SyntheticEvent) => {
