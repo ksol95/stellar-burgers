@@ -1,10 +1,10 @@
 import { FC, SyntheticEvent, useEffect, useState, Dispatch } from 'react';
 
 import { ProfileUI } from '@ui-pages';
-import { useDispatch, useSelector } from '@store';
+import { useDispatch, useSelector } from '@hooks';
 import { selectUserData, updateUser } from '@slices';
 import { Navigate } from 'react-router-dom';
-import { useForm } from '../../components/hooks/useForm';
+import { useForm } from '@hooks';
 interface IProfileForm {
   name: string;
   email: string;

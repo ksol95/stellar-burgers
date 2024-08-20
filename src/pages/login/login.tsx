@@ -1,8 +1,7 @@
-import { FC, SyntheticEvent, useEffect, useState } from 'react';
+import { FC, SyntheticEvent, useEffect } from 'react';
 import { LoginUI } from '@ui-pages';
-import { useDispatch, useSelector } from '@store';
+import { useDispatch, useSelector, useForm } from '@hooks';
 import { clearErrors, loginUser, selectUserError } from '@slices';
-import { useForm } from '../../components/hooks/useForm';
 
 interface ILoginForm {
   email: string;

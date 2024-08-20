@@ -26,6 +26,7 @@
       "@cookie": ["src/utils/cookie"],
       "@api": ["src/utils/burger-api.ts"],
       "@slices": ["src/services/slices"],
+      "@hooks": ["src/services/hooks.ts"],
       "@store": ["src/services/store.ts"],
       "@selectors": ["src/services/selectors"]
     }

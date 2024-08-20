@@ -11,7 +11,7 @@ import {
   clearConstructor,
   selectUserData
 } from '@slices';
-import { useDispatch, useSelector } from '@store';
+import { useDispatch, useSelector } from '@hooks';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {

@@ -2,7 +2,8 @@ import { FC } from 'react';
 import { useParams } from 'react-router-dom';
 import { IngredientDetailsUI, Preloader } from '@ui';
 import { selectIngredientById } from '@slices';
-import { RootState, useSelector } from '@store';
+import { RootState } from '@store';
+import { useSelector } from '@hooks';
 
 export const IngredientDetails: FC = () => {
   // ### Подробно об ингредиенте

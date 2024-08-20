@@ -3,15 +3,11 @@ import styles from './constructor-page.module.css';
 import { BurgerIngredients, BurgerConstructor } from '@components';
 import { Preloader } from '@ui';
 import { FC } from 'react';
-import { getIngredients, isLoadingSelectors } from '@slices';
-import { useDispatch, useSelector } from '@store';
+import { isLoadingSelectors } from '@slices';
+import { useSelector } from '@hooks';
 
 export const ConstructorPage: FC = () => {
-  const dispatch = useDispatch();
   const isIngredientsLoading = useSelector(isLoadingSelectors);
-  //Загружаем ингредиенты
-  isIngredientsLoading && dispatch(getIngredients());
-
   return (
     <>
       {isIngredientsLoading ? (

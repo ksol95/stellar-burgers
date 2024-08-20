@@ -5,14 +5,12 @@ import { getOrderByNumberApi, getOrdersApi } from '@api';
 export interface IProfileOrder {
   orders: TOrder[];
   openingOrder: TOrder | null;
-  openingOrderNumber: number | null;
   error: string | undefined;
 }
 
 const initialState: IProfileOrder = {
   orders: [],
   openingOrder: null,
-  openingOrderNumber: null,
   error: undefined
 };
 
@@ -37,17 +35,14 @@ export const profileOrderSlice = createSlice({
       .addCase(getOrderByNumber.pending, (state) => {
         state.error = undefined;
         state.openingOrder = null;
-        state.openingOrderNumber = null;
       })
       .addCase(getOrderByNumber.fulfilled, (state, { payload }) => {
         state.error = undefined;
         state.openingOrder = payload;
-        state.openingOrderNumber = payload.number;
       })
       .addCase(getOrderByNumber.rejected, (state, action) => {
         state.error = action.error.message;
         state.openingOrder = null;
-        state.openingOrderNumber = null;
       })
 
       .addCase(getOrders.pending, (state) => {
@@ -63,13 +58,9 @@ export const profileOrderSlice = createSlice({
   },
   selectors: {
     selectProfileOrders: (state) => state.orders,
-    selectOpeningOrder: (state) => state.openingOrder,
-    selectOpeningOrderNumber: (state) => state.openingOrderNumber
+    selectOpeningOrder: (state) => state.openingOrder
   }
 });
 
-export const {
-  selectProfileOrders,
-  selectOpeningOrderNumber,
-  selectOpeningOrder
-} = profileOrderSlice.selectors;
+export const { selectProfileOrders, selectOpeningOrder } =
+  profileOrderSlice.selectors;
