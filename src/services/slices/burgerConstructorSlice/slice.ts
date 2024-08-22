@@ -50,7 +50,6 @@ export const constructorSlice = createSlice({
   },
   selectors: {
     selectConstructor: (state) => state,
-    selectedIngredients: (state) => state.ingredients,
     burgerComposition: (state) => {
       if (state.bun) {
         const burger: string[] = [];
@@ -63,16 +62,11 @@ export const constructorSlice = createSlice({
         return burger;
       }
       return null;
-    },
-    bunInConstructor: (state) => state.bun
+    }
   }
 });
 
-export const {
-  selectedIngredients,
-  burgerComposition,
-  bunInConstructor,
-  selectConstructor
-} = constructorSlice.selectors;
+export const { burgerComposition, selectConstructor } =
+  constructorSlice.selectors;
 export const { addIngredient, removeIngredient, clearConstructor, moveItem } =
   constructorSlice.actions;

@@ -1,12 +1,8 @@
-import { getIngredientsApi } from '@api';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { TIngredient } from '@utils-types';
+import { getIngredients } from './actions';
 
-export const getIngredients = createAsyncThunk('ingridients/getAll', async () =>
-  getIngredientsApi()
-);
-
-interface IIngredientsSlice {
+export interface IIngredientsSlice {
   isLoading: boolean;
   ingredients: TIngredient[];
   error: string | undefined;
@@ -46,3 +42,5 @@ export const ingredientsSlice = createSlice({
 
 export const { ingredientsSelector, isLoadingSelectors, selectIngredientById } =
   ingredientsSlice.selectors;
+
+export default ingredientsSlice.reducer;

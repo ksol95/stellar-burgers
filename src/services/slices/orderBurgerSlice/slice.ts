@@ -1,6 +1,6 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
-import { orderBurgerApi } from '@api';
+import { orderPost } from './actions';
 
 export interface IOrderSlice {
   order: TOrder | null;
@@ -13,8 +13,6 @@ const initialState: IOrderSlice = {
   error: undefined,
   orderRequest: false
 };
-
-export const orderPost = createAsyncThunk('orderBurger/Post', orderBurgerApi);
 
 export const orderBurgerSlice = createSlice({
   name: 'orderBurger',

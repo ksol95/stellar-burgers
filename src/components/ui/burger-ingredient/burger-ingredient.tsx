@@ -10,13 +10,16 @@ import {
 
 import { TBurgerIngredientUIProps } from './type';
 
+// ### Карточки ингредиентов в конструкторе
+//CY add-ingredient-button
 export const BurgerIngredientUI: FC<TBurgerIngredientUIProps> = memo(
   ({ ingredient, count, handleAdd, locationState }) => {
     const { image, price, name, _id } = ingredient;
 
     return (
-      <li className={styles.container}>
+      <li className={styles.container} data-cy={`ingredient-${_id}`}>
         <Link
+          data-testid='ingredient-card'
           className={styles.article}
           to={`/ingredients/${_id}`}
           state={{ background: locationState }}

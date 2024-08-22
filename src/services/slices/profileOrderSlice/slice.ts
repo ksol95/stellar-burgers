@@ -1,6 +1,6 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
-import { getOrderByNumberApi, getOrdersApi } from '@api';
+import { getOrderByNumber, getOrders } from './actions';
 
 export interface IProfileOrder {
   orders: TOrder[];
@@ -13,18 +13,6 @@ const initialState: IProfileOrder = {
   openingOrder: null,
   error: undefined
 };
-
-export const getOrders = createAsyncThunk('profileOrders/get', getOrdersApi);
-export const getOrderByNumber = createAsyncThunk(
-  'profileOrders/getOrderById',
-  async (id: number | string) => {
-    let number: number;
-    if (typeof id === 'string') number = Number(id);
-    else number = id;
-    const res = await getOrderByNumberApi(number);
-    return res.orders[0];
-  }
-);
 
 export const profileOrderSlice = createSlice({
   name: 'profileOrders',

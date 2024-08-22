@@ -1,15 +1,13 @@
-import {
-  TLoginData,
-  TRegisterData,
-  getUserApi,
-  loginUserApi,
-  logoutApi,
-  registerUserApi,
-  updateUserApi
-} from '@api';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { TUser } from '@utils-types';
-import { deleteCookie, getCookie, setCookie } from '@cookie';
+import { deleteCookie } from '@cookie';
+import {
+  getUser,
+  loginUser,
+  logoutUser,
+  registerUser,
+  updateUser
+} from './actions';
 
 export interface UserState {
   isAuthChecked: boolean; // флаг для статуса проверки токена пользователя
@@ -26,53 +24,6 @@ const initialState: UserState = {
   user: undefined,
   error: ''
 };
-
-export const getUser = createAsyncThunk('user/getUser', getUserApi);
-
-export const checkUser = createAsyncThunk(
-  'user/checkUser',
-  async (_, { dispatch }) => {
-    if (getCookie('accessToken')) {
-      dispatch(getUser()).finally(() => {
-        dispatch(authCheck());
-      });
-    } else {
-      dispatch(authCheck());
-    }
-  }
-);
-
-export const loginUser = createAsyncThunk(
-  'user/login',
-  async ({ email, password }: TLoginData) => {
-    const res = await loginUserApi({ email, password });
-    if (res.success) {
-      setCookie('accessToken', res.accessToken);
-      localStorage.setItem('refreshToken', res.refreshToken);
-      return res.user;
-    }
-  }
-);
-
-export const logoutUser = createAsyncThunk('user/logout', logoutApi);
-
-export const registerUser = createAsyncThunk(
-  'user/register',
-  async ({ email, name, password }: TRegisterData) =>
-    await registerUserApi({ email, name, password })
-);
-
-export const updateUser = createAsyncThunk(
-  'user/update',
-  async ({ email, name, password }: TRegisterData) => {
-    const data = await updateUserApi({ email, name, password });
-    if (!data.success) {
-      return;
-    } else {
-      return data.user;
-    }
-  }
-);
 
 export const userSlice = createSlice({
   name: 'user',

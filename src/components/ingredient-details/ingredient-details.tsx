@@ -6,7 +6,6 @@ import { RootState } from '@store';
 import { useSelector } from '@hooks';
 
 export const IngredientDetails: FC = () => {
-  // ### Подробно об ингредиенте
   const { id } = useParams();
 
   const ingredientData =
