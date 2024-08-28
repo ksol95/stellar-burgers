@@ -39,7 +39,7 @@ const App = () => {
     : (openingModalTitle = ' ');
 
   useEffect(() => {
-    console.count('app');
+    // console.count('app');
     dispatch(getIngredients());
     dispatch(checkUser());
   }, [dispatch]);

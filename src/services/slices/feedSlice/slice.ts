@@ -40,7 +40,7 @@ export const feedSlice = createSlice({
       })
       .addCase(getFeeds.rejected, (state, action) => {
         state.isLoading = true;
-        state.error = action.error.message;
+        console.log(action.error.message);
       });
   },
   selectors: {

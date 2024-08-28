@@ -1,20 +1,20 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import {
   ingredientsSlice,
-  constructorSlice,
+  burgerConstructorSlice,
   userSlice,
   feedSlice,
   profileOrderSlice,
   orderBurgerSlice
 } from '@slices';
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
+  [burgerConstructorSlice.name]: burgerConstructorSlice.reducer,
+  [feedSlice.name]: feedSlice.reducer,
   [ingredientsSlice.name]: ingredientsSlice.reducer,
-  [constructorSlice.name]: constructorSlice.reducer,
   [userSlice.name]: userSlice.reducer,
   [profileOrderSlice.name]: profileOrderSlice.reducer,
-  [orderBurgerSlice.name]: orderBurgerSlice.reducer,
-  [feedSlice.name]: feedSlice.reducer
+  [orderBurgerSlice.name]: orderBurgerSlice.reducer
 });
 
 const store = configureStore({

@@ -24,8 +24,8 @@ const moveArrayElements = (
     return ([arr[indexFrom], arr[indexTo]] = [arr[indexTo], arr[indexFrom]]);
 };
 
-export const constructorSlice = createSlice({
-  name: 'burderConstructor',
+export const burgerConstructorSlice = createSlice({
+  name: 'burgerConstructor',
   initialState,
   reducers: {
     addIngredient: {
@@ -37,9 +37,9 @@ export const constructorSlice = createSlice({
         payload: { ...ingredient, id: nanoid() }
       })
     },
-    removeIngredient: (state, action) => {
+    removeIngredientById: (state, action: PayloadAction<string>) => {
       state.ingredients = state.ingredients.filter(
-        (ingredient) => ingredient.id !== action.payload.id
+        (ingredient) => ingredient.id !== action.payload
       );
     },
     clearConstructor: () => initialState,
@@ -67,6 +67,10 @@ export const constructorSlice = createSlice({
 });
 
 export const { burgerComposition, selectConstructor } =
-  constructorSlice.selectors;
-export const { addIngredient, removeIngredient, clearConstructor, moveItem } =
-  constructorSlice.actions;
+  burgerConstructorSlice.selectors;
+export const {
+  addIngredient,
+  removeIngredientById,
+  clearConstructor,
+  moveItem
+} = burgerConstructorSlice.actions;
