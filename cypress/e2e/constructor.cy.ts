@@ -155,38 +155,46 @@ describe('Тест страницы constructor', () => {
     });
 
     it('Оформление заказа', () => {
-      cy.attr(`ingredient-${expectObj.bun.id}`).find('button').click();
+      describe('Добавить в конструтор булку', () => {
+        //Добавляем булку в конструктор булку, проверям счётчик
+        cy.attr(`ingredient-${expectObj.bun.id}`).find('button').click();
+        cy.attr(`ingredient-${expectObj.bun.id}`).find('.counter ').contains(2);
 
-      cy.attr('constructor-bun-top')
-        .find('.constructor-element__text')
-        .contains(expectObj.bun.name + ' (верх)')
-        .parent()
-        .find('.constructor-element__price')
-        .contains(expectObj.bun.price);
+        cy.attr('constructor-bun-top')
+          .find('.constructor-element__text')
+          .contains(expectObj.bun.name + ' (верх)')
+          .parent()
+          .find('.constructor-element__price')
+          .contains(expectObj.bun.price);
 
-      cy.attr('constructor-bun-bottom')
-        .find('.constructor-element__text')
-        .contains(expectObj.bun.name + ' (низ)')
-        .parent()
-        .find('.constructor-element__price')
-        .contains(expectObj.bun.price);
+        cy.attr('constructor-bun-bottom')
+          .find('.constructor-element__text')
+          .contains(expectObj.bun.name + ' (низ)')
+          .parent()
+          .find('.constructor-element__price')
+          .contains(expectObj.bun.price);
 
-      cy.attr('constructor-ingredients-list')
-        .find('li')
-        .should('have.length', 0);
+        cy.attr('constructor-ingredients-list')
+          .find('li')
+          .should('have.length', 0);
+      });
+      describe('Добавить в констроутор ингредиент', () => {
+        // Добавляем в конструктор ингредиент и проверяем счётчик
+        cy.attr(`ingredient-${expectObj.ingredient[0].id}`)
+          .find('button')
+          .click();
+        cy.attr(`ingredient-${expectObj.ingredient[0].id}`)
+          .find('.counter ')
+          .contains(1);
 
-      cy.attr(`ingredient-${expectObj.ingredient[0].id}`)
-        .find('button')
-        .click();
-
-      cy.attr('constructor-ingredients-list')
-        .should('have.length', 1)
-        .find('li')
-        .contains(expectObj.ingredient[0].name)
-        .parent()
-        .find('.constructor-element__price')
-        .contains(expectObj.ingredient[0].price);
-
+        cy.attr('constructor-ingredients-list')
+          .should('have.length', 1)
+          .find('li')
+          .contains(expectObj.ingredient[0].name)
+          .parent()
+          .find('.constructor-element__price')
+          .contains(expectObj.ingredient[0].price);
+      });
       // Перехват запроса оформления заказа
       cy.intercept('POST', 'api/orders', {
         fixture: 'orders.json'

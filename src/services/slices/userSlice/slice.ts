@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { TUser } from '@utils-types';
-import { deleteCookie } from '@cookie';
 import {
   getUser,
   loginUser,
@@ -12,7 +11,6 @@ import {
 export interface UserState {
   isAuthChecked: boolean; // флаг для статуса проверки токена пользователя
   isAuthenticated: boolean;
-  // loginUserRequest: boolean;
   user: TUser | undefined;
   error: string | undefined;
 }
@@ -20,7 +18,6 @@ export interface UserState {
 const initialState: UserState = {
   isAuthChecked: false,
   isAuthenticated: false,
-  // loginUserRequest: false,
   user: undefined,
   error: ''
 };
@@ -40,44 +37,48 @@ export const userSlice = createSlice({
     selectUserAuthenticated: (state) => state.isAuthenticated,
     selectUserData: (state) => state.user,
     selectIsAuthChecked: (state) => state.isAuthChecked,
-    selectUserError: (state) => state.error,
-    selectRegisterError: (state) => state.error
+    selectUserError: (state) => state.error
   },
   extraReducers: (builder) => {
     builder
+      .addCase(getUser.pending, (state) => {
+        Object.assign(state, initialState);
+      })
+      .addCase(getUser.fulfilled, (state, { payload }) => {
+        state.user = payload.user;
+        state.isAuthenticated = true;
+        state.error = '';
+      })
+      .addCase(getUser.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.user = undefined;
+        state.isAuthenticated = false;
+      })
+
       .addCase(loginUser.pending, (state) => {
         state.error = '';
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.error = action.error.message;
-        state.isAuthChecked = true;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        state.isAuthChecked = true;
         state.user = action.payload;
         state.isAuthenticated = true;
         state.error = '';
       })
-      .addCase(getUser.fulfilled, (state, { payload }) => {
-        state.user = payload.user;
-        state.isAuthChecked = true;
-        state.isAuthenticated = true;
-      })
 
       .addCase(logoutUser.fulfilled, (state) => {
-        localStorage.clear();
-        deleteCookie('accessToken');
         state.user = undefined;
+        state.isAuthChecked = true;
         state.isAuthenticated = false;
+      })
+      .addCase(logoutUser.rejected, (state, { error }) => {
+        state.error = error.message;
       })
 
       .addCase(registerUser.rejected, (state, { error }) => {
         state.error = error.message;
         state.user = undefined;
-      })
-      .addCase(registerUser.fulfilled, (state, { payload }) => {
-        state.user = payload.user;
-        state.error = '';
       })
 
       .addCase(updateUser.rejected, (state, { error }) => {

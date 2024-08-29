@@ -4,33 +4,33 @@ import { getOrderByNumber, getOrders } from './actions';
 
 export interface IProfileOrder {
   orders: TOrder[];
-  openingOrder: TOrder | null;
+  currentOrder: TOrder | null;
   error: string | undefined;
 }
 
 const initialState: IProfileOrder = {
   orders: [],
-  openingOrder: null,
+  currentOrder: null,
   error: undefined
 };
 
-export const profileOrderSlice = createSlice({
-  name: 'profileOrders',
+export const orderSlice = createSlice({
+  name: 'orderSlice',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(getOrderByNumber.pending, (state) => {
         state.error = undefined;
-        state.openingOrder = null;
+        state.currentOrder = null;
       })
       .addCase(getOrderByNumber.fulfilled, (state, { payload }) => {
         state.error = undefined;
-        state.openingOrder = payload;
+        state.currentOrder = payload;
       })
       .addCase(getOrderByNumber.rejected, (state, action) => {
         state.error = action.error.message;
-        state.openingOrder = null;
+        state.currentOrder = null;
       })
 
       .addCase(getOrders.pending, (state) => {
@@ -46,9 +46,8 @@ export const profileOrderSlice = createSlice({
   },
   selectors: {
     selectProfileOrders: (state) => state.orders,
-    selectOpeningOrder: (state) => state.openingOrder
+    selectOpeningOrder: (state) => state.currentOrder
   }
 });
 
-export const { selectProfileOrders, selectOpeningOrder } =
-  profileOrderSlice.selectors;
+export const { selectProfileOrders, selectOpeningOrder } = orderSlice.selectors;

@@ -2,7 +2,7 @@ import { expect, describe } from '@jest/globals';
 import { getFeeds } from './actions';
 import { feedSlice } from './slice';
 
-describe('Лента заказов', () => {
+describe('Лента заказов - тесты экшена генерируемых при выполнении асинхронного запроса [getFeeds]', () => {
   const initialState = {
     orders: [],
     total: 0,
@@ -33,7 +33,16 @@ describe('Лента заказов', () => {
     totalToday: 172
   };
 
-  test('getFeeds - Успешная загрузка', () => {
+  test('[getFeeds] - начала запроса', () => {
+    const action = {
+      type: getFeeds.pending.type
+    };
+
+    const newState = feedSlice.reducer(initialState, action);
+    expect(newState).toEqual(initialState);
+  });
+
+  test('[getFeeds] - успешное выполнение запроса', () => {
     const action = {
       type: getFeeds.fulfilled.type,
       payload: mockFeedsOrders
@@ -44,6 +53,20 @@ describe('Лента заказов', () => {
       total: mockFeedsOrders.total,
       totalToday: mockFeedsOrders.totalToday,
       isLoading: false
+    };
+
+    const newState = feedSlice.reducer(initialState, action);
+    expect(newState).toEqual(expectedState);
+  });
+  test('[getFeeds] - ошибка запроса', () => {
+    const action = {
+      type: getFeeds.rejected.type,
+      error: { message: 'error' }
+    };
+    const expectedState = {
+      ...initialState,
+      isLoading: true,
+      error: 'error'
     };
 
     const newState = feedSlice.reducer(initialState, action);

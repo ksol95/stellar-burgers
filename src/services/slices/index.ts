@@ -6,8 +6,8 @@ export * from './ingredientSlice/actions';
 export * from './orderBurgerSlice/slice';
 export * from './orderBurgerSlice/actions';
 
-export * from './profileOrderSlice/slice';
-export * from './profileOrderSlice/actions';
+export * from './orderSlice/slice';
+export * from './orderSlice/actions';
 
 export * from './feedSlice/slice';
 export * from './feedSlice/actions';

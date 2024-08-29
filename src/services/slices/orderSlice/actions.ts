@@ -1,9 +1,9 @@
 import { getOrderByNumberApi, getOrdersApi } from '@api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-export const getOrders = createAsyncThunk('profileOrders/get', getOrdersApi);
+export const getOrders = createAsyncThunk('orders/get', getOrdersApi);
 export const getOrderByNumber = createAsyncThunk(
-  'profileOrders/getOrderById',
+  'orders/getOrderById',
   async (id: number | string) => {
     let number: number;
     if (typeof id === 'string') number = Number(id);

@@ -39,7 +39,6 @@ export function setCookie(
       updatedCookie += '=' + propValue;
     }
   }
-  // console.log(updatedCookie);
   document.cookie = updatedCookie;
 }
 

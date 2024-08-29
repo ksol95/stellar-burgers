@@ -19,9 +19,3 @@ export function useForm<T>(inputValues: T) {
   };
   return { formValue, handleChange, setFormValue };
 }
-
-// export const createAsyncThunk = crAsyncThunk.withTypes<{
-//   state: RootState;
-//   dispatch: AppDispatch;
-//   extra: typeof burgerApi;
-// }>();
