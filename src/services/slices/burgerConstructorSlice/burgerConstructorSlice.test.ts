@@ -1,5 +1,4 @@
 import { expect, describe } from '@jest/globals';
-import { configureStore, nanoid } from '@reduxjs/toolkit';
 
 import {
   burgerConstructorSlice,
@@ -14,7 +13,7 @@ afterAll(() => {
   jest.restoreAllMocks();
 });
 
-describe('Тест синхронных экшенов	[burgerConstructor]', () => {
+describe('Тест синхронных экшенов слайса [burgerConstructor]', () => {
   const initialState: TConstructorState = {
     ingredients: [],
     bun: null
@@ -99,19 +98,26 @@ describe('Тест синхронных экшенов	[burgerConstructor]', () 
   });
 
   it('Тест экшена - [removeIngredientById] (по ID - mainId)', () => {
+    // ID удаляемого ингредиента
     const targetId = 'mainId';
-    const expectedState = {
+    // Ожидаемый стейт
+    const expectedState: TConstructorState = {
       bun: { ...testIngredients.bun, id: 'bunId' },
       ingredients: [{ ...testIngredients.sauce, id: 'sauceId' }]
     };
+    // Начальный стейт с двумя ингредиентами
+    const startState: TConstructorState = {
+      bun: { ...testIngredients.bun, id: 'bunId' },
+      ingredients: [
+        { ...testIngredients.sauce, id: 'sauceId' },
+        { ...testIngredients.main, id: 'mainId' }
+      ]
+    };
 
-    const startState = { ...expectedState };
-    startState.ingredients.push({ ...testIngredients.main, id: targetId });
-
-    // Удаляем ингредиент main по ID
+    // Удаляем ингредиент main по ID с помощью [removeIngredientById]
     const newState = burgerConstructorSlice.reducer(
       startState,
-      removeIngredientById('mainId')
+      removeIngredientById(targetId)
     );
 
     expect(newState).toEqual(expectedState);
