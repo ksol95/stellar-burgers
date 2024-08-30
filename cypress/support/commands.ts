@@ -28,3 +28,18 @@
 Cypress.Commands.add('attr', (value, attr = 'data-cy') => {
   cy.get(`[${attr}="${value}"]`);
 });
+Cypress.Commands.add('checkProductDescriptions', (selector, ingredinet) => {
+  cy.get(selector)
+    .contains('Калории, ккал')
+    .next('p')
+    .contains(ingredinet.calories);
+
+  cy.get(selector).contains('Белки, г').next('p').contains(ingredinet.proteins);
+
+  cy.get(selector).contains('Жиры, г').next('p').contains(ingredinet.fat);
+
+  cy.get(selector)
+    .contains('Углеводы, г')
+    .next('p')
+    .contains(ingredinet.carbohydrates);
+});

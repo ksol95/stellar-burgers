@@ -68,51 +68,29 @@ const expectObj = {
 
 describe('Тест страницы constructor', () => {
   beforeEach(() => {
-    // cy.viewport(1000, 660);
-    //Перехват запроса ингредиентов
-    cy.intercept('GET', 'api/ingredients', (req) => {
-      req.reply({
-        fixture: 'ingredients.json'
-      });
-    }).as('getIngredients');
-    // Перехват запроса пользователя
-    cy.intercept('GET', 'api/auth/user', {
-      fixture: 'user.json'
-    }).as('getUser');
-
-    cy.setCookie('accessToken', 'fakeToken');
-    localStorage.setItem('refreshToken', 'fakeToken');
-
-    cy.visit('http://localhost:4000/');
-  });
-
-  afterEach(() => {
-    cy.setCookie('accessToken', '');
-    localStorage.setItem('refreshToken', '');
-  });
-
-  it('сервис должен быть доступен по адресу: localhost:4000', () => {
-    cy.visit('http://localhost:4000/');
+    cy.visit('/');
+    cy.attr(`ingredient-${expectObj.ingredient[0].id}`).click();
+    cy.attr('modal').as('modal');
+    cy.attr('modal-close').as('modal-close');
+    cy.attr('constructor-bun-top').as('bun-top');
+    cy.attr('constructor-bun-bottom').as('bun-bottom');
+    cy.attr('constructor-ingredients-list').as('ingredients-list');
   });
 
   describe('Открытие и закрытие модального окна с описанием ингредиента', () => {
-    beforeEach(() => {
-      cy.attr(`ingredient-${expectObj.ingredient[0].id}`).click();
-    });
-
     it('Проверка открытия модального окна ингредиента', () => {
-      cy.attr('modal').should('be.visible');
+      cy.get('@modal').should('be.visible');
       cy.attr('modal-title').contains('Детали ингредиента');
     });
 
     it('Проверка закрытия модального окна - close button', () => {
-      cy.attr('modal-close').click();
-      cy.attr('modal').should('not.exist');
+      cy.get('@modal-close').click();
+      cy.get('@modal').should('not.exist');
     });
 
     it('Проверка закрытия модального окна - esc', () => {
       cy.get('body').type('{esc}');
-      cy.attr('modal').should('not.exist');
+      cy.get('@modal').should('not.exist');
     });
 
     it('Отображение в открытом модальном окне данных именно того ингредиента, по которому произошел клик.', () => {
@@ -126,30 +104,37 @@ describe('Тест страницы constructor', () => {
         .should('not.be.empty')
         .contains(expectObj.ingredient[0].name);
 
-      cy.get('li')
-        .children('p')
-        .contains('Калории, ккал')
-        .next('p')
-        .contains(expectObj.ingredient[0].calories)
-        .parent()
-        .parent()
-        .contains('Белки, г')
-        .next('p')
-        .contains(expectObj.ingredient[0].proteins)
-        .parent()
-        .parent()
-        .contains('Жиры, г')
-        .next('p')
-        .contains(expectObj.ingredient[0].fat)
-        .parent()
-        .parent()
-        .contains('Углеводы, г')
-        .next('p')
-        .contains(expectObj.ingredient[0].carbohydrates);
+      cy.get('@modal').find('ul').as('productDesc');
+      cy.checkProductDescriptions('@productDesc', expectObj.ingredient[0]);
     });
   });
 
   describe('Cоздания заказа', () => {
+    beforeEach(() => {
+      // Перехват запроса пользователя
+      cy.intercept('GET', 'api/auth/user', {
+        fixture: 'user.json'
+      }).as('getUser');
+
+      //Перехват запроса ингредиентов
+      cy.intercept('GET', 'api/ingredients', {
+        fixture: 'ingredients.json'
+      }).as('getIngredients');
+
+      cy.setCookie('accessToken', 'fakeToken');
+      localStorage.setItem('refreshToken', 'fakeToken');
+
+      cy.visit('/');
+
+      cy.wait('@getUser');
+      cy.wait('@getIngredients');
+    });
+
+    afterEach(() => {
+      cy.setCookie('accessToken', '');
+      localStorage.setItem('refreshToken', '');
+    });
+
     it('Проверка налчия пользователя', () => {
       cy.contains(expectObj.user.name).should('exist');
     });
@@ -157,44 +142,40 @@ describe('Тест страницы constructor', () => {
     it('Оформление заказа', () => {
       describe('Добавить в конструтор булку', () => {
         //Добавляем булку в конструктор булку, проверям счётчик
-        cy.attr(`ingredient-${expectObj.bun.id}`).find('button').click();
-        cy.attr(`ingredient-${expectObj.bun.id}`).find('.counter ').contains(2);
+        cy.attr(`ingredient-${expectObj.bun.id}`)
+          .as('firstBun')
+          .find('button')
+          .click();
+        cy.get('@firstBun').find('.counter ').contains(2);
 
-        cy.attr('constructor-bun-top')
-          .find('.constructor-element__text')
+        cy.get('@bun-top')
           .contains(expectObj.bun.name + ' (верх)')
           .parent()
-          .find('.constructor-element__price')
           .contains(expectObj.bun.price);
 
-        cy.attr('constructor-bun-bottom')
-          .find('.constructor-element__text')
+        cy.get('@bun-bottom')
           .contains(expectObj.bun.name + ' (низ)')
           .parent()
-          .find('.constructor-element__price')
           .contains(expectObj.bun.price);
 
-        cy.attr('constructor-ingredients-list')
-          .find('li')
-          .should('have.length', 0);
+        cy.get('@ingredients-list').find('li').should('have.length', 0);
       });
+
       describe('Добавить в констроутор ингредиент', () => {
         // Добавляем в конструктор ингредиент и проверяем счётчик
         cy.attr(`ingredient-${expectObj.ingredient[0].id}`)
+          .as('firstIngredient')
           .find('button')
           .click();
-        cy.attr(`ingredient-${expectObj.ingredient[0].id}`)
-          .find('.counter ')
-          .contains(1);
+        cy.get('@firstIngredient').find('.counter ').contains(1);
 
-        cy.attr('constructor-ingredients-list')
+        cy.get('@ingredients-list')
           .should('have.length', 1)
-          .find('li')
           .contains(expectObj.ingredient[0].name)
           .parent()
-          .find('.constructor-element__price')
           .contains(expectObj.ingredient[0].price);
       });
+
       // Перехват запроса оформления заказа
       cy.intercept('POST', 'api/orders', {
         fixture: 'orders.json'
@@ -206,32 +187,27 @@ describe('Тест страницы constructor', () => {
         .contains('Оформить заказ')
         .click();
 
-      cy.attr('modal').should('be.visible');
+      cy.get('@modal').should('be.visible');
       //Проверка вывода номера заказа
       cy.attr('order-number').contains(expectObj.order.number);
-      cy.attr('modal-close').click();
-      cy.attr('modal').should('not.exist');
+      cy.get('@modal-close').click();
+      cy.get('@modal').should('not.exist');
     });
 
     it('Проверка отчистки конструктора', () => {
-      cy.attr('constructor-bun-top').contains('Выберите булки');
-      cy.attr('constructor-ingredients-list').contains('Выберите начинку');
-      cy.attr('constructor-bun-bottom').contains('Выберите булки');
+      cy.get('@bun-top').contains('Выберите булки');
+      cy.get('@ingredients-list').contains('Выберите начинку');
+      cy.get('@bun-bottom').contains('Выберите булки');
 
       // Перехват запроса вывода ленты заказов
-      cy.intercept('GET', 'api/orders/all', (req) => {
-        req.reply({
-          fixture: 'feed.json'
-        });
+      cy.intercept('GET', 'api/orders/all', {
+        fixture: 'feed.json'
       }).as('getFeed');
-      cy.visit('http://localhost:4000/feed');
 
+      cy.visit('/feed');
+      cy.wait('@getFeed');
+      //Проверка добавленого заказа в ленте заказов
       cy.attr('order-list')
-        .find('a')
-        .children('div')
-        .first()
-        .children('span')
-        .first()
         .contains('#0' + expectObj.order.number)
         .parent()
         .parent()

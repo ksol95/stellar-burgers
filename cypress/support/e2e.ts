@@ -20,6 +20,15 @@ declare global {
   namespace Cypress {
     interface Chainable {
       attr(value: string, attr?: string): Chainable<HTMLElement>;
+      checkProductDescriptions(
+        selector: string,
+        value: {
+          proteins: number;
+          fat: number;
+          carbohydrates: number;
+          calories: number;
+        }
+      ): Chainable<HTMLElement>;
     }
   }
 }
