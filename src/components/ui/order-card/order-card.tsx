@@ -11,6 +11,7 @@ import { OrderCardUIProps } from './type';
 import { OrderStatus } from '@components';
 
 export const OrderCardUI: FC<OrderCardUIProps> = memo(
+  // ### Карточка с заказом
   ({ orderInfo, maxIngredients, locationState }) => (
     <Link
       to={orderInfo.number.toString()}

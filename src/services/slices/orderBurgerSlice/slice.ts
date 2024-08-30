@@ -1,0 +1,47 @@
+import { createSlice } from '@reduxjs/toolkit';
+import { TOrder } from '@utils-types';
+import { orderPost } from './actions';
+
+interface IOrderSlice {
+  order: TOrder | null;
+  error: string | undefined;
+  orderRequest: boolean;
+}
+
+export const initialState: IOrderSlice = {
+  order: null,
+  error: undefined,
+  orderRequest: false
+};
+
+export const orderBurgerSlice = createSlice({
+  name: 'orderBurger',
+  initialState,
+  reducers: { clearOrderDetails: () => initialState },
+  extraReducers: (builder) => {
+    builder
+      .addCase(orderPost.pending, (state) => {
+        state.error = undefined;
+        state.orderRequest = true;
+      })
+      .addCase(orderPost.fulfilled, (state, action) => {
+        state.error = undefined;
+        state.order = action.payload.order;
+        // note: Статус заказа приходит всегда "done"
+        state.orderRequest = false;
+      })
+      .addCase(orderPost.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.orderRequest = false;
+      });
+  },
+  selectors: {
+    selectOrderDetails: (state) => state.order,
+    selectOrderRequest: (state) => state.orderRequest
+  }
+});
+
+export const { selectOrderRequest, selectOrderDetails } =
+  orderBurgerSlice.selectors;
+
+export const { clearOrderDetails } = orderBurgerSlice.actions;
