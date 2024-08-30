@@ -1,9 +1,8 @@
 import { expect, describe } from '@jest/globals';
 import { getIngredients } from './actions';
-import ingredientsReducer from './slice';
+import ingredientsReducer, { initialState } from './slice';
 
 describe('ingredientSlice - тесты экшена генерируемых при выполнении асинхронного запроса [getIngredients]', () => {
-  const initialState = { isLoading: true, ingredients: [], error: undefined };
   const mockIngredients = {
     ...initialState,
     ingredients: [

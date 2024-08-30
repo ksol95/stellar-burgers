@@ -2,13 +2,13 @@ import { createSlice } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
 import { orderPost } from './actions';
 
-export interface IOrderSlice {
+interface IOrderSlice {
   order: TOrder | null;
   error: string | undefined;
   orderRequest: boolean;
 }
 
-const initialState: IOrderSlice = {
+export const initialState: IOrderSlice = {
   order: null,
   error: undefined,
   orderRequest: false

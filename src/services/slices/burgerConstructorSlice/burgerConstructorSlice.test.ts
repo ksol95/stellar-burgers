@@ -6,7 +6,7 @@ import {
   removeIngredientById,
   clearConstructor,
   moveItem,
-  TConstructorState
+  initialState
 } from './slice';
 
 afterAll(() => {
@@ -14,11 +14,6 @@ afterAll(() => {
 });
 
 describe('Тест синхронных экшенов слайса [burgerConstructor]', () => {
-  const initialState: TConstructorState = {
-    ingredients: [],
-    bun: null
-  };
-
   const testIngredients = {
     sauce: {
       _id: '643d69a5c3f7b9001cfa0945',
@@ -101,12 +96,12 @@ describe('Тест синхронных экшенов слайса [burgerConst
     // ID удаляемого ингредиента
     const targetId = 'mainId';
     // Ожидаемый стейт
-    const expectedState: TConstructorState = {
+    const expectedState = {
       bun: { ...testIngredients.bun, id: 'bunId' },
       ingredients: [{ ...testIngredients.sauce, id: 'sauceId' }]
     };
     // Начальный стейт с двумя ингредиентами
-    const startState: TConstructorState = {
+    const startState = {
       bun: { ...testIngredients.bun, id: 'bunId' },
       ingredients: [
         { ...testIngredients.sauce, id: 'sauceId' },
@@ -151,7 +146,7 @@ describe('Тест синхронных экшенов слайса [burgerConst
         ]
       };
       // Создаем стэйт с добавленными ингредентами
-      let newState: TConstructorState = {
+      let newState: typeof initialState = {
         ...initialState,
         ingredients: [
           { ...testIngredients.sauce, id: 'sauceId' },
@@ -175,7 +170,7 @@ describe('Тест синхронных экшенов слайса [burgerConst
         ]
       };
       // Создаем стэйт с добавленными ингредентами
-      let newState: TConstructorState = {
+      let newState: typeof initialState = {
         ...initialState,
         ingredients: [
           { ...testIngredients.sauce, id: 'sauceId' },

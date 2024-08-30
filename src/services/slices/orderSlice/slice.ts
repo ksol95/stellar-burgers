@@ -2,13 +2,13 @@ import { createSlice } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
 import { getOrderByNumber, getOrders } from './actions';
 
-export interface IProfileOrder {
+interface IProfileOrder {
   orders: TOrder[];
   currentOrder: TOrder | null;
   error: string | undefined;
 }
 
-const initialState: IProfileOrder = {
+export const initialState: IProfileOrder = {
   orders: [],
   currentOrder: null,
   error: undefined

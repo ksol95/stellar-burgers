@@ -1,12 +1,6 @@
 import { expect, describe } from '@jest/globals';
 import { getOrders, getOrderByNumber } from './actions';
-import { orderSlice } from './slice';
-
-const initialState = {
-  orders: [],
-  currentOrder: null,
-  error: undefined
-};
+import { orderSlice, initialState } from './slice';
 
 const mokOrders = [
   {

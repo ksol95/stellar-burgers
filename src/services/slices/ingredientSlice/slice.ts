@@ -2,13 +2,13 @@ import { createSlice } from '@reduxjs/toolkit';
 import { TIngredient } from '@utils-types';
 import { getIngredients } from './actions';
 
-export interface IIngredientsSlice {
+interface IIngredientsSlice {
   isLoading: boolean;
   ingredients: TIngredient[];
   error: string | undefined;
 }
 
-const initialState: IIngredientsSlice = {
+export const initialState: IIngredientsSlice = {
   isLoading: true,
   ingredients: [],
   error: undefined

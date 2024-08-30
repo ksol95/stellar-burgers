@@ -1,14 +1,8 @@
 import { expect, describe } from '@jest/globals';
 import { orderPost } from './actions';
-import { IOrderSlice, orderBurgerSlice } from './slice';
+import { initialState, orderBurgerSlice } from './slice';
 
 describe('orderBurgerSlice - тесты экшена генерируемых при выполнении асинхронного запроса [orderPost]', () => {
-  const initialState: IOrderSlice = {
-    order: null,
-    error: undefined,
-    orderRequest: false
-  };
-
   const mok = {
     ingredients: [
       {

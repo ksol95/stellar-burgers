@@ -8,14 +8,14 @@ import {
   updateUser
 } from './actions';
 
-export interface UserState {
+interface UserState {
   isAuthChecked: boolean; // флаг для статуса проверки токена пользователя
   isAuthenticated: boolean;
   user: TUser | undefined;
   error: string | undefined;
 }
 
-const initialState: UserState = {
+export const initialState: UserState = {
   isAuthChecked: false,
   isAuthenticated: false,
   user: undefined,
@@ -90,7 +90,7 @@ export const userSlice = createSlice({
   }
 });
 
-export const userReducer = userSlice.reducer;
+export default userSlice.reducer;
 export const {
   selectUserAuthenticated,
   selectUserData,

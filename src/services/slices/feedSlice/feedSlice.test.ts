@@ -1,15 +1,8 @@
 import { expect, describe } from '@jest/globals';
 import { getFeeds } from './actions';
-import { feedSlice } from './slice';
+import { feedSlice, initialState } from './slice';
 
 describe('Лента заказов - тесты экшена генерируемых при выполнении асинхронного запроса [getFeeds]', () => {
-  const initialState = {
-    orders: [],
-    total: 0,
-    totalToday: 0,
-    error: undefined,
-    isLoading: true
-  };
   const mockFeedsOrders = {
     success: true,
     orders: [

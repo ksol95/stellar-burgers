@@ -6,14 +6,7 @@ import {
   registerUser,
   updateUser
 } from './actions';
-import { userSlice } from './slice';
-
-const initialState = {
-  isAuthChecked: false,
-  isAuthenticated: false,
-  user: undefined,
-  error: ''
-};
+import { userSlice, initialState } from './slice';
 
 const mokUser = {
   email: 'test@ya.ru',
@@ -148,11 +141,11 @@ describe('[userSlice] - тесты экшена генерируемых при 
   test('[updateUser] - успешная загрузка', () => {
     const action = {
       type: updateUser.fulfilled.type,
-			payload: mokUser
+      payload: mokUser
     };
     const expectedState = {
       ...initialState,
-			user: mokUser
+      user: mokUser
     };
     const newState = userSlice.reducer(initialState, action);
     expect(newState).toEqual(expectedState);
